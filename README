@@ -1,0 +1,9 @@
+taskset 0x2 ./sleep //set process core
+
+
+renice 8 -p 32411 //set task priority
+
+
+htop //use search to find pid
+
+

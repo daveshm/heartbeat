@@ -61,7 +61,7 @@ void INT_10ms_tasks( void )
    idle_time = delta_cnt * FiltIdlePeriod;
    if ( idle_time > RT_CLOCKS_PER_TASK )
       idle_time = RT_CLOCKS_PER_TASK;
-   idle_pct = (int)( (255 * idle_time) / RT_CLOCKS_LOOPS_PER_TASK );
+   idle_pct = (int)( (255 * idle_time) / RT_CLOCKS_PER_TASK );
    CPU_util_pct = 255 - idle_pct;
 
   for(q = 0; q < 10700; q++){

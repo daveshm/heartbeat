@@ -19,16 +19,10 @@ __uint64_t to_ns(const timespec &ts) {
 
 
 int main(int argc, char *argv[]){
-   //SetupInterrupts();
-   //InitializeModules();
-   //EnableInterrupts();
 
    while(1) /* endless loop - spin in the background */
    {
       MonitorIdlePeriod();
-      //CheckCRC();
-      //MonitorStack();
-      //... do other non-time critical logic here.
    }
 }
 
@@ -40,15 +34,8 @@ void MonitorIdlePeriod()
    bg_loop_cnt++;
    prevRT_Clock = RT_Clock;
 
-   //DisableInterrupts(); /* start atomic section */
    clock_gettime(CLOCK, &RT_Clock);
-   //if ( PreemptionFlag == 0 )
-      //interrupted = FALSE;
-   //PreemptionFlag = 0;
-   //Enable Interrupts(); /* end atomic section */
 
    IdlePeriod = to_ns(RT_Clock) - to_ns(prevRT_Clock);
    printf("%ul \n", IdlePeriod);
-   //if ( !interrupted )
-     //FiltIdlePeriod = Filter( FiltIdlePeriod, IdlePeriod );
 }

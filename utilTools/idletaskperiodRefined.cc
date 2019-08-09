@@ -25,16 +25,11 @@ __uint64_t to_ns(const timespec &ts) {
 
 
 int main(int argc, char *argv[]){
-   //SetupInterrupts();
-   //InitializeModules();
-   //EnableInterrupts();
+ 
 
    while(1) /* endless loop - spin in the background */
    {
       MonitorIdlePeriod();
-      //CheckCRC();
-      //MonitorStack();
-      //... do other non-time critical logic here.
    }
 }
 
@@ -46,17 +41,11 @@ void MonitorIdlePeriod()
    bg_loop_cnt++;
    prevRT_Clock = RT_Clock;
 
-   //DisableInterrupts(); /* start atomic section */
    clock_gettime(CLOCK, &RT_Clock);
-   //if ( PreemptionFlag == 0 )
-      //interrupted = FALSE;
-   //PreemptionFlag = 0;
-   //Enable Interrupts(); /* end atomic section */
+
 
    IdlePeriod = to_ns(RT_Clock) - to_ns(prevRT_Clock);
    printf("%ul \n", IdlePeriod);
-   //if ( !interrupted )
-     //FiltIdlePeriod = Filter( FiltIdlePeriod, IdlePeriod );
 }
 
 void INT_10ms_tasks( void )
@@ -66,7 +55,6 @@ void INT_10ms_tasks( void )
    unsigned int idle_pct;
    unsigned int idle_time;
 
-   //PreemptionFlag = 0x0004; /* indicate preemption by 25mS task */
    delta_cnt = bg_loop_cnt - prev_bg_loop_cnt;
    prev_bg_loop_cnt = bg_loop_cnt;
 
@@ -75,10 +63,7 @@ void INT_10ms_tasks( void )
       idle_time = RT_CLOCKS_PER_TASK;
    idle_pct = (int)( (255 * idle_time) / RT_CLOCKS_LOOPS_PER_TASK );
    CPU_util_pct = 255 - idle_pct;
-   //FiltCPU_Pct = Filter( FiltCPU_Pct, CPU_util_pct );
 
-
-   //do other 10 millisecond tasks here
   for(q = 0; q < 10700; q++){
 		q++;
 		for(p = 0; p < 1000; p++){

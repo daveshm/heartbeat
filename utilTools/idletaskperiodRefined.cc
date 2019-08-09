@@ -37,7 +37,7 @@ void MonitorIdlePeriod()
 {
    static timespec RT_Clock, prevRT_Clock;
    unsigned long IdlePeriod;
-   bool interrupted = true;
+
    bg_loop_cnt++;
    prevRT_Clock = RT_Clock;
 

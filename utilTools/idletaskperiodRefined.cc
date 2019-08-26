@@ -15,9 +15,11 @@ constexpr uint64_t BILLION {1000000000};
 
 extern __uint16_t bg_loop_cnt = 0;
 extern __uint16_t PreemptionFlag = 0;
-extern __uint16_t FiltIdlePeriod;
+extern __uint16_t FiltIdlePeriod  = 4672;
 
 void MonitorIdlePeriod();
+void INT_10ms_tasks();
+
 
 __uint64_t to_ns(const timespec &ts) {
   return ts.tv_sec * BILLION + ts.tv_nsec;
@@ -30,6 +32,7 @@ int main(int argc, char *argv[]){
    while(1) /* endless loop - spin in the background */
    {
       MonitorIdlePeriod();
+      INT_10ms_tasks();
    }
 }
 
@@ -48,7 +51,7 @@ void MonitorIdlePeriod()
    printf("%ul \n", IdlePeriod);
 }
 
-void INT_10ms_tasks( void )
+void INT_10ms_tasks()
 {
    static unsigned int prev_bg_loop_cnt = 0;
    static unsigned int delta_cnt;
@@ -63,6 +66,13 @@ void INT_10ms_tasks( void )
       idle_time = RT_CLOCKS_PER_TASK;
    idle_pct = (int)( (255 * idle_time) / RT_CLOCKS_PER_TASK );
    CPU_util_pct = 255 - idle_pct;
+ 
+    printf("idle_pct: %ul \n", idle_pct);
+    printf("CPU_util_pct: %ul \n", CPU_util_pct);
+
+    printf("RT_CLOCKS_PER_TASK: %d \n", RT_CLOCKS_PER_TASK);
+
+
 
   for(q = 0; q < 10700; q++){
 		q++;
@@ -70,6 +80,7 @@ void INT_10ms_tasks( void )
 			c++;
 		}
 	}
+
 
 
    return;
